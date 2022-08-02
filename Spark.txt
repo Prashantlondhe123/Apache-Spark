@@ -7,13 +7,13 @@ spark = SparkSession.builder \
       .master("local[1]") \
       .appName("SparkByExamples.com") \
       .getOrCreate() 
-2)
-# Create RDD from parallelize    
+      
+      
+2)# Create RDD from parallelize    
 dataList = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
 rdd=spark.sparkContext.parallelize(dataList)
 
 3)
-
 # Create RDD from external Data source
 rdd2 = spark.sparkContext.textFile("/path/test.txt")
 
@@ -76,9 +76,16 @@ df.show(20,20,true) // Show 20 rows, column length 20 & displays data in vertica
 
 df2 = spark.read.text("/src/resources/file.txt")
 
+
+
+
 11) creating dataframe from json file
 
 df2 = spark.read.json("/src/resources/file.json")
+
+
+
+
 
 12)Pyspark Write DataFrame to Parquet file format
 
@@ -92,6 +99,9 @@ df=spark.createDataFrame(data,columns)
 
 
 df.write.parquet("/tmp/output/people.parquet")
+
+
+
 
 13)Pyspark Read Parquet file into DataFrame
 
