@@ -1,0 +1,161 @@
+
+1)# Import SparkSession
+from pyspark.sql import SparkSession
+
+# Create SparkSession 
+spark = SparkSession.builder \
+      .master("local[1]") \
+      .appName("SparkByExamples.com") \
+      .getOrCreate() 
+2)
+# Create RDD from parallelize    
+dataList = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
+rdd=spark.sparkContext.parallelize(dataList)
+
+3)
+
+# Create RDD from external Data source
+rdd2 = spark.sparkContext.textFile("/path/test.txt")
+
+4)
+RDD Operations
+On PySpark RDD, you can perform two kinds of operations.
+
+RDD transformations – Transformations are lazy operations. When you run a transformation(for example update), instead of updating a current RDD, these operations return another RDD.
+
+RDD actions – operations that trigger computation and return RDD values to the driver.
+
+RDD Transformations
+Transformations on Spark RDD returns another RDD and transformations are lazy meaning they don’t execute until you call an action on RDD. Some transformations on RDD’s are flatMap(), map(), reduceByKey(), filter(), sortByKey() and return new RDD instead of updating the current.
+
+RDD Actions
+RDD Action operation returns the values from an RDD to a driver node. In other words, any RDD function that returns non RDD[T] is considered as an action. 
+
+Some actions on RDDs are count(), collect(), first(), max(), reduce() and more.
+
+
+5) create dataframe
+
+data = [('James','','Smith','1991-04-01','M',3000),
+  ('Michael','Rose','','2000-05-19','M',4000),
+  ('Robert','','Williams','1978-09-05','M',4000),
+  ('Maria','Anne','Jones','1967-12-01','F',4000),
+  ('Jen','Mary','Brown','1980-02-17','F',-1)
+]
+
+columns = ["firstname","middlename","lastname","dob","gender","salary"]
+df = spark.createDataFrame(data=data, schema = columns)
+
+
+
+6)Read csv file
+
+df = spark.read.csv("/tmp/resources/zipcodes.csv")
+df.printSchema()
+
+7)
+df.createOrReplaceTempView("PERSON_DATA")
+df2 = spark.sql("SELECT * from PERSON_DATA")
+df2.printSchema()
+df2.show()
+
+8)
+groupDF = spark.sql("SELECT gender, count(*) from PERSON_DATA group by gender")
+groupDF.show()
+
+9)
+
+df.show() // Show 20 rows & 20 characters for columns
+df.show(50) // Show 50 rows
+df.show(false) // Show 20 rows with full column value
+df.show(50,false) // Show 50 rows & full column value
+df.show(20,20,true) // Show 20 rows, column length 20 & displays data in vertical
+
+
+10)creating dataframe from txt file
+
+df2 = spark.read.text("/src/resources/file.txt")
+
+11) creating dataframe from json file
+
+df2 = spark.read.json("/src/resources/file.json")
+
+12)Pyspark Write DataFrame to Parquet file format
+
+data =[("James ","","Smith","36636","M",3000),
+              ("Michael ","Rose","","40288","M",4000),
+              ("Robert ","","Williams","42114","M",4000),
+              ("Maria ","Anne","Jones","39192","F",4000),
+              ("Jen","Mary","Brown","","F",-1)]
+columns=["firstname","middlename","lastname","dob","gender","salary"]
+df=spark.createDataFrame(data,columns)
+
+
+df.write.parquet("/tmp/output/people.parquet")
+
+13)Pyspark Read Parquet file into DataFrame
+
+parDF=spark.read.parquet("/tmp/output/people.parquet")
+
+
+parqDF.createOrReplaceTempView("ParquetTable")
+parkSQL = spark.sql("select * from ParquetTable where salary >= 4000 ")
+
+
+
+14)Read & Write Avro files using Spark DataFrame
+
+
+
+val personDF= spark.read.format("avro").load("person.avro")
+
+Writing Avro Partition Data
+
+val data = Seq(("James ","","Smith",2018,1,"M",3000),
+      ("Michael ","Rose","",2010,3,"M",4000),
+      ("Robert ","","Williams",2010,3,"M",4000),
+      ("Maria ","Anne","Jones",2005,5,"F",4000),
+      ("Jen","Mary","Brown",2010,7,"",-1)
+    )
+
+val columns = Seq("firstname", "middlename", "lastname", "dob_year",
+ "dob_month", "gender", "salary")
+import spark.sqlContext.implicits._
+val df = data.toDF(columns:_*)
+
+df.write.partitionBy("dob_year","dob_month")
+        .format("avro").save("person_partition.avro")
+
+
+val data = Seq(("James ","","Smith",2018,1,"M",3000),
+      ("Michael ","Rose","",2010,3,"M",4000),
+      ("Robert ","","Williams",2010,3,"M",4000),
+      ("Maria ","Anne","Jones",2005,5,"F",4000),
+      ("Jen","Mary","Brown",2010,7,"",-1)
+    )
+
+val columns = Seq("firstname", "middlename", "lastname", "dob_year",
+ "dob_month", "gender", "salary")
+import spark.sqlContext.implicits._
+val df = data.toDF(columns:_*)
+
+# Reading avro partition data
+
+df.write.partitionBy("dob_year","dob_month")
+        .format("avro").save("person_partition.avro")
+
+############################
+
+# way to reanem col
+
+
+
+
+
+
+
+
+
+
+
+
