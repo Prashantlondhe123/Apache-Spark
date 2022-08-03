@@ -383,7 +383,193 @@ df.write.option("header",True) \
         .mode("overwrite") \
         .csv("/tmp/zipcodes-state")
 
-#
+
+###PySpark Aggregate Functions with Examples
+#approx_count_distinct Aggregate Function
+In PySpark approx_count_distinct() function
+returns the count of distinct items in a
+group.
+
+//approx_count_distinct()
+print("approx_count_distinct: " + \
+      str(df.select(approx_count_distinct("salary")).collect()[0][0]))
+
+//Prints approx_count_distinct: 6
+
+#avg (average) Aggregate Function
+print("avg: " + str(df.select(avg("salary")).collect()[0][0]))
+
+//Prints avg: 3400.0
+
+#collect_list Aggregate Function
+collect_list() function returns all values from an input column with duplicates
+
+df.select(collect_list("salary")).show(truncate=False)
+
++------------------------------------------------------------+
+|collect_list(salary)                                        |
++------------------------------------------------------------+
+|[3000, 4600, 4100, 3000, 3000, 3300, 3900, 3000, 2000, 4100]|
++------------------------------------------------------------+
+
+#countDistinct Aggregate Function
+countDistinct() function returns the number of distinct elements in a columns
+df2 = df.select(countDistinct("department", "salary"))
+df2.show(truncate=False)
+print("Distinct Count of Department & Salary: "+str(df2.collect()[0][0]))
+
+#count function
+count() function returns number of elements in a column
+
+print("count: "+str(df.select(count("salary")).collect()[0]))
+
+Prints county: 10
+
+
+#first function
+first() function returns the first element in a column when ignoreNulls is set to true, it returns the first non-null element
+
+//first
+df.select(first("salary")).show(truncate=False)
+
++--------------------+
+|first(salary, false)|
++--------------------+
+|3000                |
++--------------------+
+
+
+#last function
+last() function returns the last element in a column. when ignoreNulls is set to true, it returns the last non-null element
+
+//last
+df.select(last("salary")).show(truncate=False)
+
++-------------------+
+|last(salary, false)|
++-------------------+
+|4100               |
++-------------------+
+
+
+#kurtosis function
+kurtosis() function returns the kurtosis of the values in a group
+
+df.select(kurtosis("salary")).show(truncate=False)
+
++-------------------+
+|kurtosis(salary)   |
++-------------------+
+|-0.6467803030303032|
++-------------------+
+
+#max function
+
+df.select(max("salary")).show(truncate=False)
+
++-----------+
+|max(salary)|
++-----------+
+|4600       |
++-----------+
+
+
+#min function
+df.select(min("salary")).show(truncate=False)
+
++-----------+
+|min(salary)|
++-----------+
+|2000       |
++-----------+
+
+#mean function
+
+df.select(mean("salary")).show(truncate=False)
+
++-----------+
+|avg(salary)|
++-----------+
+|3400.0     |
++-----------+
+
+
+#skewness function
+skewness() function returns the skewness of the values in a group
+
+df.select(skewness("salary")).show(truncate=False)
+
++--------------------+
+|skewness(salary)    |
++--------------------+
+|-0.12041791181069571|
++--------------------+
+
+
+#stddev(), stddev_samp() and stddev_pop()
+stddev() alias for stddev_samp.
+
+stddev_samp() function returns the sample standard deviation of values in a column.
+
+stddev_pop() function returns the population standard deviation of the values in a column
+
+
+df.select(stddev("salary"), stddev_samp("salary"), \
+    stddev_pop("salary")).show(truncate=False)
+
++-------------------+-------------------+------------------+
+|stddev_samp(salary)|stddev_samp(salary)|stddev_pop(salary)|
++-------------------+-------------------+------------------+
+|765.9416862050705  |765.9416862050705  |726.636084983398  |
++-------------------+-------------------+------------------+
+
+
+#sum function
+
+df.select(sum("salary")).show(truncate=False)
+
++-----------+
+|sum(salary)|
++-----------+
+|34000      |
++-----------+
+
+#sumDistinct function
+sumDistinct() function returns the sum of all distinct values in a column
+
+df.select(sumDistinct("salary")).show(truncate=False)
+
++--------------------+
+|sum(DISTINCT salary)|
++--------------------+
+|20900               |
++--------------------+
+
+
+#variance(), var_samp(), var_pop()
+variance() alias for var_samp
+
+var_samp() function returns the unbiased variance of the values in a column.
+
+var_pop() function returns the population variance of the values in a column
+
+
+df.select(variance("salary"),var_samp("salary"),var_pop("salary")) \
+  .show(truncate=False)
+
++-----------------+-----------------+---------------+
+|var_samp(salary) |var_samp(salary) |var_pop(salary)|
++-----------------+-----------------+---------------+
+|586666.6666666666|586666.6666666666|528000.0       |
++-----------------+-----------------+---------------+
+
+
+
+###
+
+
+
+
 
 
 
