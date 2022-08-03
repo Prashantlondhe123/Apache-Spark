@@ -8,17 +8,29 @@ spark = SparkSession.builder \
       .appName("SparkByExamples.com") \
       .getOrCreate() 
       
-      
-2)# Create RDD from parallelize    
+ ##########################################################RDD#################################################################################################
+ 
+import pyspark
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName('SparkByExamples.com').getOrCreate()
+sparkContext=spark.sparkContext
+
+ 
+ ## Create RDD from parallelize    
 dataList = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
 rdd=spark.sparkContext.parallelize(dataList)
 
-3)
-# Create RDD from external Data source
+##create empty RDD by using sparkContext.parallelize
+emptyRDD = sparkContext.emptyRDD()
+emptyRDD2 = rdd=sparkContext.parallelize([])
+print("is Empty RDD : "+str(emptyRDD2.isEmpty()))
+
+##Create RDD from external Data source
 rdd2 = spark.sparkContext.textFile("/path/test.txt")
 
-4)
-RDD Operations
+
+##RDD Operations
 On PySpark RDD, you can perform two kinds of operations.
 
 RDD transformations – Transformations are lazy operations. When you run a transformation(for example update), instead of updating a current RDD, these operations return another RDD.
@@ -33,6 +45,18 @@ RDD Action operation returns the values from an RDD to a driver node. In other w
 
 Some actions on RDDs are count(), collect(), first(), max(), reduce() and more.
 
+###########################################################Pyspark#################################################################################################
+#SPARKSESSION                         RDD                        DATAFRAME
+createDataFrame(rdd)	              toDF()	                 toDF(*cols)
+createDataFrame(dataList)	                                   toDF(*cols)	
+createDataFrame(rowData,columns)		
+createDataFrame(dataList,schema)
+
+
+
+
+
+
 
 5) create dataframe
 
@@ -45,6 +69,58 @@ data = [('James','','Smith','1991-04-01','M',3000),
 
 columns = ["firstname","middlename","lastname","dob","gender","salary"]
 df = spark.createDataFrame(data=data, schema = columns)
+
+
+#Display full column contents
+df.show(truncate=False)
+
+#+-----+-----------------------------------------------------------------------------+
+#|Seqno|Quote                                                                        |
+#+-----+-----------------------------------------------------------------------------+
+#|1    |Be the change that you wish to see in the world                              |
+#|2    |Everyone thinks of changing the world, but no one thinks of changing himself.|
+#|3    |The purpose of our lives is to be happy.                                     |
+#|4    |Be cool.                                                                     |
+#+-----+-----------------------------------------------------------------------------+
+
+
+## Create a Row Object
+
+from pyspark.sql import Row
+row=Row("James",40)
+print(row[0] +","+str(row[1]))
+>>James,40
+
+ ##Select Single & Multiple Columns From PySpark
+ 
+df.select("firstname","lastname").show()
+df.select(df.firstname,df.lastname).show()
+df.select(df["firstname"],df["lastname"]).show()
+
+#By using col() function
+from pyspark.sql.functions import col
+df.select(col("firstname"),col("lastname")).show()
+
+#Select columns by regular expression
+df.select(df.colRegex("`^.*name*`")).show()
+   
+   
+# Select All columns from List
+df.select(*columns).show()
+
+# Select All columns
+df.select([col for col in df.columns]).show()
+df.select("*").show()
+
+
+#Selects first 3 columns and top 3 rows
+df.select(df.columns[:3]).show(3)
+
+#Selects columns 2 to 4  and top 3 rows
+df.select(df.columns[2:4]).show(3)
+
+
+
 
 
 
