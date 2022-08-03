@@ -119,6 +119,72 @@ df.select(df.columns[:3]).show(3)
 #Selects columns 2 to 4  and top 3 rows
 df.select(df.columns[2:4]).show(3)
 
+#PySpark Collect() – Retrieve data from DataFrame
+
+import pyspark
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder.appName('SparkByExamples.com').getOrCreate()
+
+dept = [("Finance",10), \
+    ("Marketing",20), \
+    ("Sales",30), \
+    ("IT",40) \
+  ]
+deptColumns = ["dept_name","dept_id"]
+deptDF = spark.createDataFrame(data=dept, schema = deptColumns)
+deptDF.show(truncate=False)
+
+dataCollect = deptDF.collect()
+print(dataCollect)
+
+##Change DataType using PySpark withColumn()
+df.withColumn("salary",col("salary").cast("Integer")).show()
+
+#Update The Value of an Existing Column
+df.withColumn("salary",col("salary")*100).show()
+
+#Create a Column from an Existing
+df.withColumn("CopiedColumn",col("salary")* -1).show()
+
+#Rename Column Name
+df.withColumnRenamed("gender","sex") \
+  .show(truncate=False)
+  
+ #with col renamed
+ df.withColumnRenamed("dob","DateOfBirth").printSchema()
+ 
+ ## DataFrame filter() with Column Condition
+ # Using equals condition
+df.filter(df.state == "OH").show(truncate=False)
+
++----------------------+------------------+-----+------+
+|name                  |languages         |state|gender|
++----------------------+------------------+-----+------+
+|[James, , Smith]      |[Java, Scala, C++]|OH   |M     |
+|[Julia, , Williams]   |[CSharp, VB]      |OH   |F     |
+|[Mike, Mary, Williams]|[Python, VB]      |OH   |M     |
++----------------------+------------------+-----+------+
+
+# not equals condition
+df.filter(df.state != "OH") \
+    .show(truncate=False) 
+df.filter(~(df.state == "OH")) \
+    .show(truncate=False)
+    
+    #PySpark Filter with Multiple Conditions
+    
+//Filter multiple condition
+df.filter( (df.state  == "OH") & (df.gender  == "M") ) \
+    .show(truncate=False)  
+#
+
+
+
+
+
+
+
 
 
 
