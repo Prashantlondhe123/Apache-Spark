@@ -176,8 +176,246 @@ df.filter(~(df.state == "OH")) \
     
 //Filter multiple condition
 df.filter( (df.state  == "OH") & (df.gender  == "M") ) \
-    .show(truncate=False)  
+    .show(truncate=False)
+  
+##Get Distinct Rows (By Comparing All Columns)
+distinctDF = df.distinct()
+print("Distinct count: "+str(distinctDF.count()))
+distinctDF.show(truncate=False)
+
+#PySpark Distinct of Selected Multiple Columns
+dropDisDF = df.dropDuplicates(["department","salary"])
+print("Distinct count of department & salary : "+str(dropDisDF.count()))
+dropDisDF.show(truncate=False)
+
+##DataFrame sorting using the sort() function
+df.sort("department","state").show(truncate=False)
+df.sort(col("department"),col("state")).show(truncate=False)
+
+#DataFrame sorting using orderBy() function
+df.orderBy("department","state").show(truncate=False)
+df.orderBy(col("department"),col("state")).show(truncate=False)
+
+#Sort by Ascending (ASC)
+df.sort(df.department.asc(),df.state.asc()).show(truncate=False)
+df.sort(col("department").asc(),col("state").asc()).show(truncate=False)
+df.orderBy(col("department").asc(),col("state").asc()).show(truncate=False)
+
+#Sort by Descending (DESC)
+df.sort(df.department.asc(),df.state.desc()).show(truncate=False)
+df.sort(col("department").asc(),col("state").desc()).show(truncate=False)
+df.orderBy(col("department").asc(),col("state").desc()).show(truncate=False)
+
+##PySpark groupBy and aggregate on DataFrame columns
+df.groupBy("department").count()
+df.groupBy("department").min("salary")
+df.groupBy("department").max("salary")
+df.groupBy("department").avg( "salary")
+df.groupBy("department").mean( "salary") 
+
+#PySpark groupBy and aggregate on multiple columns
+//GroupBy on multiple columns
+df.groupBy("department","state") \
+    .sum("salary","bonus") \
+    .show(false)
+
+#Running more aggregates at a time
+df.groupBy("department") \
+    .agg(sum("salary").alias("sum_salary"), \
+         avg("salary").alias("avg_salary"), \
+         sum("bonus").alias("sum_bonus"), \
+         max("bonus").alias("max_bonus") \
+     ) \
+    .show(truncate=False)
+
+#Using filter on aggregate data
+df.groupBy("department") \
+    .agg(sum("salary").alias("sum_salary"), \
+      avg("salary").alias("avg_salary"), \
+      sum("bonus").alias("sum_bonus"), \
+      max("bonus").alias("max_bonus")) \
+    .where(col("sum_bonus") >= 50000) \
+    .show(truncate=False)
+
+### Join
+#PySpark Inner Join DataFrame
+empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"inner") \
+     .show(truncate=False)
+
+#PySpark Full Outer Join
+empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"outer") \
+    .show(truncate=False)
+empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"full") \
+    .show(truncate=False)
+empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"fullouter") \
+    .show(truncate=False)
+
+#PySpark Left Outer Join
+ empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"left")
+    .show(truncate=False)
+  empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"leftouter")
+    .show(truncate=False)
+
+#Right Outer Join
+empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"right") \
+   .show(truncate=False)
+empDF.join(deptDF,empDF.emp_dept_id ==  deptDF.dept_id,"rightouter") \
+   .show(truncate=False)
+
+#Using SQL Expression
+empDF.createOrReplaceTempView("EMP")
+deptDF.createOrReplaceTempView("DEPT")
+
+joinDF = spark.sql("select * from EMP e, DEPT d where e.emp_dept_id == d.dept_id") \
+  .show(truncate=False)
+
+joinDF2 = spark.sql("select * from EMP e INNER JOIN DEPT d ON e.emp_dept_id == d.dept_id") \
+  .show(truncate=False)
+
+## union or unionall
+#Merge two or more DataFrames using union
+unionDF = df.union(df2)
+unionDF.show(truncate=False)
+
+#Merge DataFrames using unionAll
+unionAllDF = df.unionAll(df2)
+unionAllDF.show(truncate=False)
+
+#Merge without Duplicates
+disDF = df.union(df2).distinct()
+disDF.show(truncate=False)
+
+#Spark Merge Two DataFrames with Different Columns or Schema
+//Scala
+merged_df = df1.unionByName(df2, true)
+
+#PySpark
+merged_df = df1.unionByName(df2, allowMissingColumns=True)
+
+###Create a Python Function
+def convertCase(str):
+    resStr=""
+    arr = str.split(" ")
+    for x in arr:
+       resStr= resStr + x[0:1].upper() + x[1:len(x)] + " "
+    return resStr 
+
+#Converting function to UDF """
+convertUDF = udf(lambda z: convertCase(z),StringType())
+
+###Using foreach() to Loop Through Rows in DataFrame
+# Foreach example
+def f(x): print(x)
+df.foreach(f)
+
+# Another example
+df.foreach(lambda x: 
+    print("Data ==>"+x["firstname"]+","+x["lastname"]+","+x["gender"]+","+str(x["salary"]*2))
+    ) 
+
+#Using pandas() to Iterate
+# Using pandas
+import pandas as pd
+spark.conf.set("spark.sql.execution.arrow.enabled", "true")
+pandasDF = df.toPandas()
+for index, row in pandasDF.iterrows():
+    print(row['firstname'], row['gender'])
+
+#Collect Data As List and Loop Through
+# Collect the data to Python List
+dataCollect = df.collect()
+for row in dataCollect:
+    print(row['firstname'] + "," +row['lastname'])
+
+#Using toLocalIterator()
+dataCollect=df.rdd.toLocalIterator()
+for row in dataCollect:
+    print(row['firstname'] + "," +row['lastname'])
+
+###PySpark fillna() & fill() – Replace NULL/None Values
+#Replace 0 for null for all integer columns
+df.na.fill(value=0).show()
+
+#Replace 0 for null on only population column 
+df.na.fill(value=0,subset=["population"]).show()
+
+#PySpark Replace Null/None Value with Empty String
+df.na.fill("").show(false)
+
+###Pivot PySpark DataFrame PySpark
+pivotDF = df.groupBy("Product").pivot("Country").sum("Amount")
+pivotDF.printSchema()
+pivotDF.show(truncate=False)
+
+#Unpivot PySpark DataFrame
+from pyspark.sql.functions import expr
+unpivotExpr = "stack(3, 'Canada', Canada, 'China', China, 'Mexico', Mexico) as (Country,Total)"
+unPivotDF = pivotDF.select("Product", expr(unpivotExpr)) \
+    .where("Total is not null")
+unPivotDF.show(truncate=False)
+unPivotDF.show()
+
+###PySpark partitionBy()
+PySpark partitionBy() is a function of pyspark
+.sql.DataFrameWriter class which is used to 
+partition based on column values while writing
+DataFrame to Disk/File system.
+
+
+#partitionBy()
+df.write.option("header",True) \
+        .partitionBy("state") \
+        .mode("overwrite") \
+        .csv("/tmp/zipcodes-state")
+
+
+#partitionBy() multiple columns
+df.write.option("header",True) \
+        .partitionBy("state","city") \
+        .mode("overwrite") \
+        .csv("/tmp/zipcodes-state")
+
+#Data Skew – Control Number of Records per Partition File
+#partitionBy() control number of partitions
+df.write.option("header",True) \
+        .option("maxRecordsPerFile", 2) \
+        .partitionBy("state") \
+        .mode("overwrite") \
+        .csv("/tmp/zipcodes-state")
+
 #
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
