@@ -8,7 +8,7 @@ spark = SparkSession.builder \
       .appName("SparkByExamples.com") \
       .getOrCreate() 
       
- ##########################################################RDD#################################################################################################
+ ##########################################################RDD############# RDD  ################################################################################
  
 import pyspark
 from pyspark.sql import SparkSession
@@ -45,7 +45,135 @@ RDD Action operation returns the values from an RDD to a driver node. In other w
 
 Some actions on RDDs are count(), collect(), first(), max(), reduce() and more.
 
-###########################################################Pyspark#################################################################################################
+################################################### Read files ######################################################################### 
+
+#### Read csv file
+
+df = spark.read.csv("/tmp/resources/zipcodes.csv")
+df.printSchema()
+
+#Create table from csv
+df.createOrReplaceTempView("PERSON_DATA")
+df2 = spark.sql("SELECT * from PERSON_DATA")
+df2.printSchema()
+df2.show()
+
+8)
+groupDF = spark.sql("SELECT gender, count(*) from PERSON_DATA group by gender")
+groupDF.show()
+
+9)
+
+df.show() // Show 20 rows & 20 characters for columns
+df.show(50) // Show 50 rows
+df.show(false) // Show 20 rows with full column value
+df.show(50,false) // Show 50 rows & full column value
+df.show(20,20,true) // Show 20 rows, column length 20 & displays data in vertical
+
+
+###creating dataframe from txt file
+
+df2 = spark.read.text("/src/resources/file.txt")
+
+
+
+
+### creating dataframe from json file
+
+df2 = spark.read.json("/src/resources/file.json")
+
+
+
+
+
+### Pyspark Write DataFrame to Parquet file format
+
+data =[("James ","","Smith","36636","M",3000),
+              ("Michael ","Rose","","40288","M",4000),
+              ("Robert ","","Williams","42114","M",4000),
+              ("Maria ","Anne","Jones","39192","F",4000),
+              ("Jen","Mary","Brown","","F",-1)]
+columns=["firstname","middlename","lastname","dob","gender","salary"]
+df=spark.createDataFrame(data,columns)
+
+
+df.write.parquet("/tmp/output/people.parquet")
+
+
+
+
+13)Pyspark Read Parquet file into DataFrame
+
+parDF=spark.read.parquet("/tmp/output/people.parquet")
+
+
+parqDF.createOrReplaceTempView("ParquetTable")
+parkSQL = spark.sql("select * from ParquetTable where salary >= 4000 ")
+
+
+
+###Read & Write Avro files using Spark DataFrame
+
+
+
+val personDF= spark.read.format("avro").load("person.avro")
+
+Writing Avro Partition Data
+
+val data = Seq(("James ","","Smith",2018,1,"M",3000),
+      ("Michael ","Rose","",2010,3,"M",4000),
+      ("Robert ","","Williams",2010,3,"M",4000),
+      ("Maria ","Anne","Jones",2005,5,"F",4000),
+      ("Jen","Mary","Brown",2010,7,"",-1)
+    )
+
+val columns = Seq("firstname", "middlename", "lastname", "dob_year",
+ "dob_month", "gender", "salary")
+import spark.sqlContext.implicits._
+val df = data.toDF(columns:_*)
+
+df.write.partitionBy("dob_year","dob_month")
+        .format("avro").save("person_partition.avro")
+
+
+val data = Seq(("James ","","Smith",2018,1,"M",3000),
+      ("Michael ","Rose","",2010,3,"M",4000),
+      ("Robert ","","Williams",2010,3,"M",4000),
+      ("Maria ","Anne","Jones",2005,5,"F",4000),
+      ("Jen","Mary","Brown",2010,7,"",-1)
+    )
+
+val columns = Seq("firstname", "middlename", "lastname", "dob_year",
+ "dob_month", "gender", "salary")
+import spark.sqlContext.implicits._
+val df = data.toDF(columns:_*)
+
+# Reading avro partition data
+
+df.write.partitionBy("dob_year","dob_month")
+        .format("avro").save("person_partition.avro")
+        
+        
+ # Read ORC file
+ df.write.orc('zoo.orc')
+spark.read.orc('zoo.orc').show()       
+
+###################################################### IMP function #############################################################################################
+
+df.head(10)
+df.tail()
+df.show()
+df.columns
+df.topandas()
+df.printschema
+df.describe()
+df.select("a", "b", "c").describe().show()
+df.collect()
+
+
+
+
+########################################################### Pyspark #################################################################################################
 #SPARKSESSION                         RDD                        DATAFRAME
 createDataFrame(rdd)	              toDF()	                 toDF(*cols)
 createDataFrame(dataList)	                                   toDF(*cols)	
@@ -614,115 +742,8 @@ df.select(variance("salary"),var_samp("salary"),var_pop("salary")) \
 
 
 
-6)Read csv file
-
-df = spark.read.csv("/tmp/resources/zipcodes.csv")
-df.printSchema()
-
-7)
-df.createOrReplaceTempView("PERSON_DATA")
-df2 = spark.sql("SELECT * from PERSON_DATA")
-df2.printSchema()
-df2.show()
-
-8)
-groupDF = spark.sql("SELECT gender, count(*) from PERSON_DATA group by gender")
-groupDF.show()
-
-9)
-
-df.show() // Show 20 rows & 20 characters for columns
-df.show(50) // Show 50 rows
-df.show(false) // Show 20 rows with full column value
-df.show(50,false) // Show 50 rows & full column value
-df.show(20,20,true) // Show 20 rows, column length 20 & displays data in vertical
 
 
-10)creating dataframe from txt file
-
-df2 = spark.read.text("/src/resources/file.txt")
-
-
-
-
-11) creating dataframe from json file
-
-df2 = spark.read.json("/src/resources/file.json")
-
-
-
-
-
-12)Pyspark Write DataFrame to Parquet file format
-
-data =[("James ","","Smith","36636","M",3000),
-              ("Michael ","Rose","","40288","M",4000),
-              ("Robert ","","Williams","42114","M",4000),
-              ("Maria ","Anne","Jones","39192","F",4000),
-              ("Jen","Mary","Brown","","F",-1)]
-columns=["firstname","middlename","lastname","dob","gender","salary"]
-df=spark.createDataFrame(data,columns)
-
-
-df.write.parquet("/tmp/output/people.parquet")
-
-
-
-
-13)Pyspark Read Parquet file into DataFrame
-
-parDF=spark.read.parquet("/tmp/output/people.parquet")
-
-
-parqDF.createOrReplaceTempView("ParquetTable")
-parkSQL = spark.sql("select * from ParquetTable where salary >= 4000 ")
-
-
-
-14)Read & Write Avro files using Spark DataFrame
-
-
-
-val personDF= spark.read.format("avro").load("person.avro")
-
-Writing Avro Partition Data
-
-val data = Seq(("James ","","Smith",2018,1,"M",3000),
-      ("Michael ","Rose","",2010,3,"M",4000),
-      ("Robert ","","Williams",2010,3,"M",4000),
-      ("Maria ","Anne","Jones",2005,5,"F",4000),
-      ("Jen","Mary","Brown",2010,7,"",-1)
-    )
-
-val columns = Seq("firstname", "middlename", "lastname", "dob_year",
- "dob_month", "gender", "salary")
-import spark.sqlContext.implicits._
-val df = data.toDF(columns:_*)
-
-df.write.partitionBy("dob_year","dob_month")
-        .format("avro").save("person_partition.avro")
-
-
-val data = Seq(("James ","","Smith",2018,1,"M",3000),
-      ("Michael ","Rose","",2010,3,"M",4000),
-      ("Robert ","","Williams",2010,3,"M",4000),
-      ("Maria ","Anne","Jones",2005,5,"F",4000),
-      ("Jen","Mary","Brown",2010,7,"",-1)
-    )
-
-val columns = Seq("firstname", "middlename", "lastname", "dob_year",
- "dob_month", "gender", "salary")
-import spark.sqlContext.implicits._
-val df = data.toDF(columns:_*)
-
-# Reading avro partition data
-
-df.write.partitionBy("dob_year","dob_month")
-        .format("avro").save("person_partition.avro")
-
-############################
-
-# way to reanem col
 
 
 
