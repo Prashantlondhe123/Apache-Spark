@@ -8,7 +8,7 @@ spark = SparkSession.builder \
       .appName("SparkByExamples.com") \
       .getOrCreate() 
       
- ##########################################################RDD############# RDD  ################################################################################
+ ####################################################################### RDD  ################################################################################
  
 import pyspark
 from pyspark.sql import SparkSession
@@ -156,7 +156,17 @@ df.write.partitionBy("dob_year","dob_month")
         
  # Read ORC file
  df.write.orc('zoo.orc')
-spark.read.orc('zoo.orc').show()       
+spark.read.orc('zoo.orc').show()  
+
+#Read xlsx file 
+first  install library in the cluster : Maven> (com.crealytics:spark-excel_2.11:0.12.2)>
+Dataframe = spark.read.format(“com.crealytics.spark.excel”)\
+
+.option(“useHeader”, “true”)\
+
+.option(“inferSchema”, “true”)\
+
+.load(“/Location/FileName.xlsx”)
 
 ###################################################### IMP function #############################################################################################
 
@@ -693,7 +703,7 @@ df.select(variance("salary"),var_samp("salary"),var_pop("salary")) \
 
 
 
-#################################Window Functions
+################################################################Window Functions##################################################################################
 
 PySpark Window functions are used to calculate results such as the rank, row number e.t.c over a range of input rows. In this article, I’ve explained the concept of window functions, syntax, and finally how to use them with PySpark SQL and PySpark DataFrame API. These come in handy when we need to make aggregate operations in a specific window frame on DataFrame columns
 
@@ -926,7 +936,7 @@ df.withColumn("row",row_number().over(windowSpec)) \
 +----------+------+-----+----+----+
 
 
-############################################# SQL Date and Timestamp Functions##
+############################################# SQL Date and Timestamp Functions#####################################################################################
 
 
 
