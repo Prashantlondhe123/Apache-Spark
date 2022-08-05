@@ -70,17 +70,23 @@ df.show(false) // Show 20 rows with full column value
 df.show(50,false) // Show 50 rows & full column value
 df.show(20,20,true) // Show 20 rows, column length 20 & displays data in vertical
 
+df.write.format("csv").save("/tmp/spark_output/datacsv")
+
 
 ###creating dataframe from txt file
 
 df2 = spark.read.text("/src/resources/file.txt")
 
+df1.write.text("output")
+// You can specify the compression format using the 'compression' option.
+df1.write.option("compression", "gzip").text("output_compressed")
 
 
 
 ### creating dataframe from json file
 
 df2 = spark.read.json("/src/resources/file.json")
+df2.write.json("/tmp/spark_output/zipcodes.json")
 
 
 
@@ -109,6 +115,9 @@ parDF=spark.read.parquet("/tmp/output/people.parquet")
 
 parqDF.createOrReplaceTempView("ParquetTable")
 parkSQL = spark.sql("select * from ParquetTable where salary >= 4000 ")
+
+df.write.parquet("/tmp/output/people.parquet")
+
 
 
 
@@ -167,6 +176,9 @@ Dataframe = spark.read.format(“com.crealytics.spark.excel”)\
 .option(“inferSchema”, “true”)\
 
 .load(“/Location/FileName.xlsx”)
+
+df1.to_excel("output.xlsx")  
+df1.to_excel("output.xlsx", sheet_name='Sheet_name_1')  
 
 ###################################################### IMP function #############################################################################################
 
