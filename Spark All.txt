@@ -180,6 +180,47 @@ df.describe()
 df.select("a", "b", "c").describe().show()
 df.collect()
 
+#df.alias: rename dataframe
+from pyspark.sql.functions import *
+df_as1 = df.alias("df_as1")
+df_as2 = df.alias("df_as2")
+joined_df = df_as1.join(df_as2, col("df_as1.name") == col("df_as2.name"), 'inner')
+joined_df.select("df_as1.name", "df_as2.name", "df_as2.age")                 .sort(desc("df_as1.name")).collect()
+[Row(name='Bob', name='Bob', age=5), Row(name='Alice', name='Alice', age=2)]
+
+#df.createGlobalTempView("people")
+
+#df.describe(['age']).show()
+df.describe(['age', 'weight', 'height'])
+
+#df.distinct().count() 
+
+#df.drop('age').collect()
+[Row(name='Alice'), Row(name='Bob')]
+
+#df.dropDuplicates().show()
+df.dropDuplicates(['name', 'height']).show()
+
+#Returns a new DataFrame omitting rows with null values. DataFrame.dropna() and
+df4.na.drop().show()
+
+#df.dtypes
+
+#df.explain(). :for debugging purpose
+
+# fill values on the null place
+df4.na.fill(50).show()
+df4.na.fill({'age': 50, 'name': 'unknown'}).show()
+
+#df.first() : returns first row
+
+#df1.intersectAll(df2).sort("C1", "C2").show(): returns all row 
+
+#4.na.replace(['Alice', 'Bob'], ['A', 'B'], 'name').show(): 
+               
+
+
+
 
 
 
