@@ -217,7 +217,23 @@ df4.na.fill({'age': 50, 'name': 'unknown'}).show()
 #df1.intersectAll(df2).sort("C1", "C2").show(): returns all row 
 
 #4.na.replace(['Alice', 'Bob'], ['A', 'B'], 'name').show(): 
-               
+
+#df.schema : returns schema of dataframe
+StructType([StructField('age', IntegerType(), True),
+            StructField('name', StringType
+
+#df.toJSON().first() : convert to json 
+
+#df.c1.cast() :
+df.select(df.age.cast("string").alias('ages')).collect()
+[Row(ages='2'), Row(ages='5')]
+df.select(df.age.cast(StringType()).alias('ages')).collect()
+[Row(ages='2'), Row(ages='5')]
+
+#coalesce():
+cDf.select(coalesce(cDf["a"], cDf["b"])).show()
+
+#          
 
 
 
