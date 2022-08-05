@@ -1,4 +1,22 @@
+############################################################################ DBFS ##################################################################################
 
+dbutils.help()
+dbutils.widget.help()
+dbutils.fs.help()                                          : file system
+%fs ls /filestore/                                         : Enlist of file
+display(dbutils.fs.ls('/filesore/))                         : Enlist 
+dbutils.fs.mkdirs('filestore/table1')                       : create directory 
+dbutils.fs.put('/filesore/file.txt,'hello there ')           : add file  with text 
+dbutils.fs.head('/filesore/file.txt)                         :  read first rows
+dbutils.fs.rm('/filesore/' ,true )                           : remove folder
+dbutils.notebook.run('/filesore/' ,60 )                      :(url,time): run notebook
+dbutils.notebook,exit("Some parameter values")                :exit  notebook
+%run ./file path                                              : run notebook
+
+
+
+
+######################################################################################################################################################################
 1)# Import SparkSession
 from pyspark.sql import SparkSession
 
