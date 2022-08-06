@@ -1,0 +1,4 @@
+#Pyspark:
+PySpark is a Spark library written in Python to run Python application using Apache Spark capabilities, using PySpark we can run applications parallelly on the distributed cluster (multiple nodes)
+
+#
