@@ -1,3 +1,81 @@
+#Apache spark :
+Apache Spark is an open-source unified analytics engine for large-scale data processing. Spark provides an interface for programming clusters with implicit data parallelism and fault tolerance. Originally developed at the University of California, Berkeley's AMPLab, the Spark codebase was later donated to the Apache Software Foundation, which has maintained it since
+
+Original author(s)   : Matei Zaharia
+Developer(s)         : Apache Spark
+
+Written in           : Scala[1]
+Operating system     : Microsoft Windows, macOS, Linux
+Available in         :Scala, Java, SQL, Python, R, C#, F#
+
+#Apache Spark Features: 
+In-memory computation
+Distributed processing using parallelize
+Can be used with many cluster managers (Spark, Yarn, Mesos e.t.c)
+Fault-tolerant
+Immutable
+Lazy evaluation
+Cache & persistence
+Inbuild-optimization when using DataFrames
+Supports ANSI SQL
+
+#Apache Spark Advantages
+Spark is a general-purpose, in-memory, fault-tolerant, distributed processing engine that allows you to process data efficiently in a distributed fashion.
+Applications running on Spark are 100x faster than traditional systems.
+You will get great benefits using Spark for data ingestion pipelines.
+Using Spark we can process data from Hadoop HDFS, AWS S3, Databricks DBFS, Azure Blob Storage, and many file systems.
+Spark also is used to process real-time data using Streaming and Kafka.
+Using Spark Streaming you can also stream files from the file system and also stream from the socket.
+Spark natively has machine learning and graph libraries.
+Apache Spark Architecture
+Apache Spark works in a master-slave architecture where the master is called “Driver” and slaves are called “Workers”. When you run a Spark application, Spark Driver creates a context that is an entry point to your application, and all operations (transformations and actions) are executed on worker nodes, and the resources are managed by Cluster Manager.
+using StructType & StructField schema
+
+#Cluster Manager Types:
+Standalone –: a simple cluster manager included with Spark that makes it easy to set up a cluster.
+Apache Mesos –: Mesons is a Cluster manager that can also run Hadoop MapReduce and Spark applications.
+Hadoop YARN –: the resource manager in Hadoop 2. This is mostly used, cluster manager.
+Kubernetes –: an open-source system for automating deployment, scaling, and management of containerized applications
+
+#Spark Modules:
+Spark Core
+Spark SQL
+Spark Streaming
+Spark MLlib
+Spark GraphX
+
+#RDD Spark :
+RDD (Resilient Distributed Dataset) is a fundamental data structure of Spark and it is the primary data abstraction in Apache Spark and the Spark Core. RDDs are fault-tolerant, immutable distributed collections of objects, which means once you create an RDD you cannot change it. Each dataset in RDD is divided into logical partitions, which can be computed on different nodes of the cluster
+
+#Spark Streaming :
+Spark Streaming is a scalable, high-throughput, fault-tolerant streaming processing system that supports both batch and streaming workloads. It is used to process real-time data from sources like file system folder, TCP socket, S3, Kafka, Flume, Twitter, and Amazon Kinesis to name a few. The processed data can be pushed to databases, Kafka, live dashboards e.t.c
+
+#Structured Streaming:
+Structured Streaming is a scalable and fault-tolerant stream processing engine built on the Spark SQL engine. You can express your streaming computation the same way you would express a batch computation on static data. The Spark SQL engine will take care of running it incrementally and continuously and updating the final result as streaming data continues to arrive. You can use the Dataset/DataFrame API in Scala, Java, Python or R to express streaming aggregations, event-time windows, stream-to-batch joins, etc. The computation is executed on the same optimized Spark SQL engine. Finally, the system ensures end-to-end exactly-once fault-tolerance guarantees through checkpointing and Write-Ahead Logs. In short, Structured Streaming provides fast, scalable, fault-tolerant, end-to-end exactly-once stream processing without the user having to reason about streaming
+
+#Spark Streaming:
+Spark Streaming is the previous generation of Spark’s streaming engine. There are no longer updates to Spark Streaming and it’s a legacy project. There is a newer and easier to use streaming engine in Spark called Structured Streaming. You should use Spark Structured Streaming for your streaming applications and pipelines. See Structured Streaming Programming Guide.
+
+#Machine Learning Library (MLlib) :
+MLlib is Spark’s machine learning (ML) library. Its goal is to make practical machine learning scalable and easy. At a high level, it provides tools such as:
+
+ML Algorithms: common learning algorithms such as classification, regression, clustering, and collaborative filtering
+Featurization: feature extraction, transformation, dimensionality reduction, and selection
+Pipelines: tools for constructing, evaluating, and tuning ML Pipelines
+Persistence: saving and load algorithms, models, and Pipelines
+Utilities: linear algebra, statistics, data handling, etc
+
+#Graphx:
+GraphX is a new component in Spark for graphs and graph-parallel computation. At a high level, GraphX extends the Spark RDD by introducing a new Graph abstraction: a directed multigraph with properties attached to each vertex and edge. To support graph computation, GraphX exposes a set of fundamental operators (e.g., subgraph, joinVertices, and aggregateMessages) as well as an optimized variant of the Pregel API. In addition, GraphX includes a growing collection of graph algorithms and builders to simplify graph analytics tasks
+
+#sparkR:
+SparkR is an R package that provides a light-weight frontend to use Apache Spark from R. In Spark 3.3.0, SparkR provides a distributed data frame implementation that supports operations like selection, filtering, aggregation etc. (similar to R data frames, dplyr) but on large datasets. SparkR also supports distributed machine learning using MLlib
+
+# Spark SQL CLI :
+The Spark SQL CLI is a convenient interactive command tool to run the Hive metastore service and execute SQL queries input from the command line. Note that the Spark SQL CLI cannot talk to the Thrift JDBC server
+
+#####################################################Pyspark#############
+
 #Pyspark:
 PySpark is a Spark library written in Python to run Python application using Apache Spark capabilities, using PySpark we can run applications parallelly on the distributed cluster (multiple nodes)
 
