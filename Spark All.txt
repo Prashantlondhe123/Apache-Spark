@@ -36,6 +36,10 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName('SparkByExamples.com').getOrCreate()
 sparkContext=spark.sparkContext
 
+from pyspark.sql import SparkSession
+spark=SparkSession.builder.appName('hello').getOrCreate()
+df=spark.read.csv(r'C:\Users\sai\Downloads\carprices.csv', header=True)
+
  
  ## Create RDD from parallelize    
 dataList = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
