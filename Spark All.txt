@@ -11,7 +11,9 @@ dbutils.fs.head('/filesore/file.txt)                         :  read first rows
 dbutils.fs.rm('/filesore/' ,true )                           : remove folder
 dbutils.notebook.run('/filesore/' ,60 )                      :(url,time): run notebook
 dbutils.notebook,exit("Some parameter values")                :exit  notebook
-%run ./file path                                              : run notebook
+%run ./file path  
+dbutils.fs.cp('Source url','target url',true)                 :copy file , folder                                            : run notebook
+dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
 
 
 
@@ -218,7 +220,8 @@ joined_df = df_as1.join(df_as2, col("df_as1.name") == col("df_as2.name"), 'inner
 joined_df.select("df_as1.name", "df_as2.name", "df_as2.age")                 .sort(desc("df_as1.name")).collect()
 [Row(name='Bob', name='Bob', age=5), Row(name='Alice', name='Alice', age=2)]
 
-#df.createGlobalTempView("people")
+#df.createGlobalTempView("people") : select * from global_temp.tempname
+
 
 #df.describe(['age']).show()
 df.describe(['age', 'weight', 'height'])
@@ -1023,8 +1026,20 @@ df.withColumn("row",row_number().over(windowSpec)) \
 +----------+------+-----+----+----+
 
 
-############################################# SQL Date and Timestamp Functions#####################################################################################
+############################################# Access adls gen2 and blob using sas in azure databricks #####################################################################################
 
+#Access ADLS Gen2 with SAS Token:
+Step 1:
+spark.conf.set("fs.azure.account.auth.type.<storage account>.dfs.core.windows.net", "SAS")
+
+spark.conf.set("fs.azure.sas.token.provider.type.<storage account>.dfs.core.windows.net", "org.apache.hadoop.fs.azurebfs.sas. FixedSASToken Provider")
+
+spark.conf.set("fs.azure.sas.fixed.token.<storage account>.dfs.core.windows.net", "<token>")
+ 
+Step 2:
+df = spark.read.csv("abfs://samplecontainer@<container name>.dfs.core.windows.net/data/Employees.csv",header=True)
+
+display(df)
 
 
 ################## 
