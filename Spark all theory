@@ -113,3 +113,29 @@ Spark Streaming allows you to apply transformations over a sliding window of dat
 DStreams allow developers to persist the stream's data in memory
 
 With the help of persist() method. DStream will automatically persist every RDD of that DStream in memory
+
+
+##############################Explaining the mechanics of Spark caching
+
+#Caching strategies
+There are several levels of data persistence in Apache Spark
+
+1)MEMORY_ONLY:  Data is cached in memory in unserialized format only
+2)MEMORY_AND_DISK. : Data is cached in memory. If memory is insufficient, the evicted blocks from memory are serialized to disk. This mode is recommended when re-evaluation is expensive and memory resources are limited.
+3)DISK_ONLY. : Data is cached on disk only in serialized format
+4)OFF_HEAP : Blocks are cached off-heap.
+
+#Serialization: Serialization increases the cost of processing but reduces the amount of memory occupied by large data sets.
+#Replication: Replication is useful for speeding up recovery in the event of a single cluster node (or executor) failure.
+
+>>> df = spark.read.parquet(data_path)
+>>> df.cache() # Cache the data
+>>> df.count() # Materialize the cache, command took 5.11 seconds
+>>> df.is_cached # Determining whether a dataframe is cached
+True
+>>> df.count() # Now get it from the cache, command took 0.44 seconds
+>>> df.storageLevel # Determing the persistent type (memory, deserialized, # replicas)
+StorageLevel(True, True, False, True, 1) 
+>>> df.unpersist()
+
+#
