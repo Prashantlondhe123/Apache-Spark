@@ -14,6 +14,8 @@ dbutils.notebook,exit("Some parameter values")                :exit  notebook
 %run ./file path  
 dbutils.fs.cp('Source url','target url',true)                 :copy file , folder                                            : run notebook
 dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
+%run "./Includes/Classroom-Setup".                              : Class room setup
+%run "./Includes/Classroom-Cleanup".                             : Classroom cleanup
 
 
 
