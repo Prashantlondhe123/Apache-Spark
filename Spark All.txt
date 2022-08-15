@@ -272,7 +272,9 @@ df.select(df.age.cast(StringType()).alias('ages')).collect()
 #coalesce():
 cDf.select(coalesce(cDf["a"], cDf["b"])).show()
 
-#          
+# DataFrame.cache() 
+
+#     
 
 
 
