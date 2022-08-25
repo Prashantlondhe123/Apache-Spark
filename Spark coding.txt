@@ -1050,7 +1050,8 @@ df = spark.read.csv("abfs://samplecontainer@<container name>.dfs.core.windows.ne
 display(df)
 
 
-################## 
+################## SQL Server function #############################################################################
+
 
 
 
