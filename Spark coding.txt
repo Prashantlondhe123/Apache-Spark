@@ -1051,9 +1051,13 @@ display(df)
 
 
 ################## SQL Server function #############################################################################
+Different categories of window functions:
+-Aggregate functions-:   AVG, SUM, COUNT, MIN, MAX etc..
+-Ranking functions-:     RANK, DENSE_RANK, ROW_NUMBER etc..
+-Analytic functions-:    LEAD, LAG, FIRST_VALUE, LAST_VALUE etc...
 
 
-
+#Rank function:
 
 
 
