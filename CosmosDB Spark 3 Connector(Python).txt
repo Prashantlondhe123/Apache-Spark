@@ -1,0 +1,42 @@
+#Databricks Runtime Version
+
+spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion")
+
+#CosmosDB Spark 3 Connect JAR Library Version
+
+%scala
+Thread.currentThread.getContextClassLoader.getResource("com/azure/cosmos/")
+
+#Updated Code for CosmosDB Spark 3 connector on Databricks
+
+%scala
+import com.azure.cosmos.spark._
+import com.azure.cosmos.spark.CosmosConfig
+import com.azure.cosmos.spark.CosmosAccountConfig
+
+#
+%scala
+var strCosmosDBUriConfigValue = "https://<cosmosdb-name>.documents.azure.com:443/"
+var strCosmosDBKeyConfigValue = "<cosmos-account-key>"
+var strCosmosDBDatabaseName = "ToDoList"
+var strCosmosDBCollectionName = "Items"
+// var strCosmosDBRegionsConfigValue = 
+ 
+val volcanoDBConfig = Map("spark.cosmos.accountEndpoint" -> strCosmosDBUriConfigValue,
+       "spark.cosmos.accountKey" -> strCosmosDBKeyConfigValue,
+        "spark.cosmos.database" -> strCosmosDBDatabaseName,
+//         "spark.cosmos.preferredRegions" -> strCosmosDBRegionsConfigValue ,
+        "spark.cosmos.container" -> strCosmosDBCollectionName,
+       "spark.cosmos.read.customQuery" -> "SELECT * FROM c"
+   )
+
+
+#
+%scala
+val volcano = spark.read.format("cosmos.oltp").options(volcanoDBConfig).load()
+   volcano.createOrReplaceTempView("volcanotemp")
+   volcano.show(5,false
+
+#
+%sql
+SELECT * FROM volcanotemp LIMIT 5
