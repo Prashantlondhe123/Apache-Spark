@@ -1,4 +1,4 @@
-############################################################################ DBFS ##################################################################################
+############################################################################ DBFS##################################################################################
 
 dbutils.help()
 dbutils.widget.help()
@@ -11,8 +11,8 @@ dbutils.fs.head('/filesore/file.txt)                         :  read first rows
 dbutils.fs.rm('/filesore/' ,true )                           : remove folder
 dbutils.notebook.run('/filesore/' ,60 )                      :(url,time): run notebook
 dbutils.notebook,exit("Some parameter values")                :exit  notebook
-%run ./file path  
-dbutils.fs.cp('Source url','target url',true)                 :copy file , folder                                            : run notebook
+%run ./file path                                               : run notebook
+dbutils.fs.cp('Source url','target url',true)                 :copy file , folder                                            
 dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
 %run "./Includes/Classroom-Setup".                              : Class room setup
 %run "./Includes/Classroom-Cleanup".                             : Classroom cleanup
@@ -25,10 +25,11 @@ dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
 from pyspark.sql import SparkSession
 
 # Create SparkSession 
-spark = SparkSession.builder \
-      .master("local[1]") \
-      .appName("SparkByExamples.com") \
-      .getOrCreate() 
+spark = SparkSession.builder.master("local[1]") .appName("SparkByExamples.com").getOrCreate() 
+
+#from pyspark.sql import SparkSession
+spark=SparkSession.builder.appName('hello').getOrCreate()
+df=spark.read.csv(r'C:\Users\sai\Downloads\carprices.csv', header=True)
       
  ####################################################################### RDD  ################################################################################
  
@@ -38,11 +39,6 @@ from pyspark.sql import SparkSession
 spark = SparkSession.builder.appName('SparkByExamples.com').getOrCreate()
 sparkContext=spark.sparkContext
 
-from pyspark.sql import SparkSession
-spark=SparkSession.builder.appName('hello').getOrCreate()
-df=spark.read.csv(r'C:\Users\sai\Downloads\carprices.csv', header=True)
-
- 
  ## Create RDD from parallelize    
 dataList = [("Java", 20000), ("Python", 100000), ("Scala", 3000)]
 rdd=spark.sparkContext.parallelize(dataList)
@@ -71,6 +67,32 @@ RDD Action operation returns the values from an RDD to a driver node. In other w
 
 Some actions on RDDs are count(), collect(), first(), max(), reduce() and more.
 
+#############################################################create dataframe###########################################################################
+5) create dataframe
+
+data = [('James','','Smith','1991-04-01','M',3000),
+  ('Michael','Rose','','2000-05-19','M',4000),
+  ('Robert','','Williams','1978-09-05','M',4000),
+  ('Maria','Anne','Jones','1967-12-01','F',4000),
+  ('Jen','Mary','Brown','1980-02-17','F',-1)
+]
+
+columns = ["firstname","middlename","lastname","dob","gender","salary"]
+df = spark.createDataFrame(data=data, schema = columns)
+
+#SPARKSESSION                         RDD                        DATAFRAME
+createDataFrame(rdd)	              toDF()	                 toDF(*cols)
+createDataFrame(dataList)	                                   toDF(*cols)	
+createDataFrame(rowData,columns)		
+createDataFrame(dataList,schema)
+
+
+
+
+
+
+
+
 ################################################### Read files ######################################################################### 
 
 #### Read csv file
@@ -83,7 +105,7 @@ df.printSchema()
 df.write.format("csv").save("/tmp/spark_output/datacsv")
 
 
-###creating dataframe from txt file
+# Read txt file:
 
 df2 = spark.read.text("/src/resources/file.txt")
 
@@ -93,30 +115,10 @@ df1.write.option("compression", "gzip").text("output_compressed")
 
 
 
-### creating dataframe from json file
+### Read and write  json file
 
 df2 = spark.read.json("/src/resources/file.json")
 df2.write.json("/tmp/spark_output/zipcodes.json")
-
-
-
-
-
-### Pyspark Write DataFrame to Parquet file format
-
-data =[("James ","","Smith","36636","M",3000),
-              ("Michael ","Rose","","40288","M",4000),
-              ("Robert ","","Williams","42114","M",4000),
-              ("Maria ","Anne","Jones","39192","F",4000),
-              ("Jen","Mary","Brown","","F",-1)]
-columns=["firstname","middlename","lastname","dob","gender","salary"]
-df=spark.createDataFrame(data,columns)
-
-
-
-
-
-
 
 13)Pyspark Read Parquet file into DataFrame
 
@@ -127,9 +129,7 @@ df.write.parquet("/tmp/output/people.parquet")
 
 ###Read & Write Avro files using Spark DataFrame
 
-
-
-val personDF= spark.read.format("avro").load("person.avro")
+DF= spark.read.format("avro").load("person.avro")
 
 Writing Avro Partition Data
 
@@ -183,6 +183,9 @@ Dataframe = spark.read.format(“com.crealytics.spark.excel”)\
 
 df1.to_excel("output.xlsx")  
 df1.to_excel("output.xlsx", sheet_name='Sheet_name_1')  
+
+
+
 
 ###################################################### IMP function #############################################################################################
 
@@ -256,39 +259,6 @@ df.select(df.age.cast(StringType()).alias('ages')).collect()
 cDf.select(coalesce(cDf["a"], cDf["b"])).show()
 
 # DataFrame.cache() 
-
-#     
-
-
-
-
-
-
-########################################################### Pyspark #################################################################################################
-#SPARKSESSION                         RDD                        DATAFRAME
-createDataFrame(rdd)	              toDF()	                 toDF(*cols)
-createDataFrame(dataList)	                                   toDF(*cols)	
-createDataFrame(rowData,columns)		
-createDataFrame(dataList,schema)
-
-
-
-
-
-
-
-5) create dataframe
-
-data = [('James','','Smith','1991-04-01','M',3000),
-  ('Michael','Rose','','2000-05-19','M',4000),
-  ('Robert','','Williams','1978-09-05','M',4000),
-  ('Maria','Anne','Jones','1967-12-01','F',4000),
-  ('Jen','Mary','Brown','1980-02-17','F',-1)
-]
-
-columns = ["firstname","middlename","lastname","dob","gender","salary"]
-df = spark.createDataFrame(data=data, schema = columns)
-
 
 #Display full column contents
 df.show(truncate=False)
