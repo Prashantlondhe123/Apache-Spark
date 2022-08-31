@@ -188,7 +188,13 @@ df1.to_excel("output.xlsx", sheet_name='Sheet_name_1')
 
 
 ###################################################### IMP function #############################################################################################
+# save DataFrame into table:
+Df.saveAsTable('table')
 
+#df.createGlobalTempView("people")
+df.createOrReplaceGlobalTempView("people")
+
+#
 
 #Create table from csv
 df.createOrReplaceTempView("PERSON_DATA")
