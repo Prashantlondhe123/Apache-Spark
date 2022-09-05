@@ -91,6 +91,14 @@ The Spark SQL CLI is a convenient interactive command tool to run the Hive metas
 #Pyspark:
 PySpark is a Spark library written in Python to run Python application using Apache Spark capabilities, using PySpark we can run applications parallelly on the distributed cluster (multiple nodes)
 
+# Delta lake:
+Delta Lake is an open-source project that enables building a data lakehouse on top of existing storage systems
+
+-open source 
+-build upon standard data format
+-optimized for cloud objects storage
+-built for scalable metadata handling
+
 #########################################################spark streaming ###########################
 Spark Streaming:
 Kafka,flume ,HDFS/s3,kinesis , Twitter >spark Streaming >databases,HDFS, Dashboard
