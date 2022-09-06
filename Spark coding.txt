@@ -15,10 +15,15 @@ dbutils.notebook,exit("Some parameter values")                :exit  notebook
 dbutils.fs.cp('Source url','target url',true)                 :copy file , folder                                            
 dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
 %run "./Includes/Classroom-Setup".                              : Class room setup
-%run "./Includes/Classroom-Cleanup".                             : Classroom cleanup
+%run "./Includes/Classroom-Cleanup".                             : Classroom cleanu
 
-
-
+#CREATING WIDGETS
+dbutils.widgets.text("JOB_NAME","JOB_CIBIL GOOD_BAD_WORKING")
+dbutils.widgets.text("COLUMNS_LIST", "ucic_id, score")
+#FETCHING VALUES IN WIDGETS AND PUT THIS VALUES IN A VARIABLE 
+JOB_NAME = dbutils.widgets.get("JOB_NAME") 
+COLUMNS_LIST = dbutils.widgets.get("COLUMNS_LIST")
+# then we can use it in notebook as variable 
 
 ######################################################################################################################################################################
 1)# Import SparkSession
