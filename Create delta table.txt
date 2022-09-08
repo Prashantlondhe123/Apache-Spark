@@ -1,4 +1,9 @@
 Delta table : 
+-Delta Lake is an open format storage layer that delivers reliability, security and performance on your data lake - for both streaming and batch operations.
+-By replacing data silos with a single home for structured, semi-structured and unstructured data, Delta Lake is the foundation of a cost-effective, highly scalable Lakehouse.
+- Delta lake for acid transaction/dml operation
+- delta follow soft delete. Means after deletion delta Lake keep data in a table for 7 days. This is default time . We can also set time .
+
 
 ## Method 1 :
 
