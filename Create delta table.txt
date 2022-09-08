@@ -1,0 +1,66 @@
+Delta table : 
+
+## Method 1 :
+
+from delta.tables import *
+
+DeltaTable.create(spark) .tableName("employee_demo").addColumn("emp_name", "STRING").addColumn("gender", "STRING").addColumn("salary", "INT")
+.addColumn("Dept", "STRING").property("description", "table created for demo purpose") A
+.location("/FileStore/tables/delta/createtable")
+.execute()
+
+>> Select * from t_name ;
+
+
+
+# Method 2:
+from delta.tables import *
+DeltaTable.createIfExists(spark).tableName("employee, deno").addColumn("emp_id", "INT").addColumn("emp_name", "STRING").addColumn("gender", "STRING").addColumn("salary", "INT").addColumn("Dept", "STRING")
+.execute()
+
+
+#Method 3:
+from delta.tables import *
+DeltaTable.createOrReplace(spark).tableName("employee demo").addColumn("emp_id", "INT").addColumn("emp_name", "STRING").addColumn("gender", "STRING").addColumn("salary", "INT").addColumn("Dept", "STRING")
+property("description", "table created for deno purpose")
+.location("/FileStore/tables/delta/createtable") 
+.execute()
+
+############################################SQL
+
+## Method 1:
+CREATE TABLE endoyee deno (
+emp_id INT,
+emp Name STRING,
+gender STRING,
+salary INT,
+dept STRING,
+) USING DELTA
+
+
+##  Method 2:
+CREATE TABLE IF NOT EXISTS employee demo (
+emp, id INT,
+emp Name STRING,
+gender STRING,
+salary INT,
+dept STRING,
+) USING DELTA
+
+
+## Method 3:
+CREATE OR REPLACE TABLE employee demo (
+empid INT,
+emp Name STRING,
+gender STRING,
+salary INT,
+dept STRING,
+)USING DELTA
+LOCATION/FileStore/tables/delta/createtable"
+
+
+############ Dataframe ######
+## Dataframe :
+df.write.format("delta").saveAsTable("employee_demo1")
+
+>>select * from employee_demol
