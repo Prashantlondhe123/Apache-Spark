@@ -4,6 +4,14 @@ Delta table :
 - Delta lake for acid transaction/dml operation
 - delta follow soft delete. Means after deletion delta Lake keep data in a table for 7 days. This is default time . We can also set time .
 
+#Delta Lake Solution Architecture:
+      1]Raw Data Integration.    2] Cleansed + Transformed      3]Business Aggregated
+Adls >>      Bronze.                     Silver.                      Gold.                >> Power Bi, excel 
+            Data Lake.                  Delta Lake                   Delta lake
+
+
+
+
 
 ## Method 1 :
 
