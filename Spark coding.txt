@@ -791,7 +791,25 @@ df1.exceptAll(df2).show()
 |  a|  1|
 |  a|  2|
 |  c|  4|
+
 +---+---+
+
+######################################### Time & Date 
+from pyspark.sql .functions import *
+df2.select(to_date(df2.BirthDate)).alias('Birth_Date').printSchema()
+
+from pyspark.sql.functions import to_timestamp
+ df = spark.createDataFrame([('1997-02-28 10:30:00',)], ['t'])
+df.select(to_timestamp(df.t, 'yyyy-MM-dd HH:mm:ss').alias('dt')).collect()
+>>[Row(dt=datetime.datetime(1997, 2, 28, 10, 30)
+
+
+
+
+
+
+
+
 ################################################################Window Functions##################################################################################
 
 PySpark Window functions are used to calculate results such as the rank, row number e.t.c over a range of input rows. In this article, I’ve explained the concept of window functions, syntax, and finally how to use them with PySpark SQL and PySpark DataFrame API. These come in handy when we need to make aggregate operations in a specific window frame on DataFrame columns
