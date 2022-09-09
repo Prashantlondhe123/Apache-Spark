@@ -763,8 +763,35 @@ df.select(variance("salary"),var_samp("salary"),var_pop("salary")) \
 |586666.6666666666|586666.6666666666|528000.0       |
 +-----------------+-----------------+---------------+
 
+### intersect : combine df on the basis of rows and it removes duplicate 
+df_inter=df_summerfruits.intersect(df_fruits)
+df_inter.show()
 
+### intersectAll:
+Intersect all of the dataframe in pyspark is similar to intersect function but the only difference is it will not remove the duplicate rows of the resultant dataframe
 
+df_summerfruits.intersectAll(df_fruits).show()
+
+###EXCEPT:
+EXCEPT and EXCEPT ALL return the rows that are found in one relation but not the other. EXCEPT (alternatively, EXCEPT DISTINCT) takes only distinct rows while EXCEPT ALL does not remove duplicates from the result rows. Note that MINUS is an alias for EXCEPT
+DF1.except(DF2)
+
+Except : removes duplicate
+Exceptall: keeps duplicate 
+
+df1 = spark.createDataFrame(
+        [("a", 1), ("a", 1), ("a", 1), ("a", 2), ("b",  3), ("c", 4)], ["C1", "C2"])
+df2 = spark.createDataFrame([("a", 1), ("b", 3)], ["C1", "C2"])
+
+df1.exceptAll(df2).show()
++---+---+
+| C1| C2|
++---+---+
+|  a|  1|
+|  a|  1|
+|  a|  2|
+|  c|  4|
++---+---+
 ################################################################Window Functions##################################################################################
 
 PySpark Window functions are used to calculate results such as the rank, row number e.t.c over a range of input rows. In this article, I’ve explained the concept of window functions, syntax, and finally how to use them with PySpark SQL and PySpark DataFrame API. These come in handy when we need to make aggregate operations in a specific window frame on DataFrame columns
@@ -996,6 +1023,7 @@ df.withColumn("row",row_number().over(windowSpec)) \
 |   Finance|3400.0|10200|3000|3900|
 | Marketing|2500.0| 5000|2000|3000|
 +----------+------+-----+----+----+
+
 
 
 ############################################# Access adls gen2 and blob using sas in azure databricks #####################################################################################
