@@ -869,7 +869,7 @@ df.select(sentences(df.string, lit("en"), lit("US"))).show(truncate=False)
 #
 
 ######################################### Datatype & Data casting #################################################################################################
-from pyspark.sql .functions import *
+from pyspark.sql.types import *
 df2.select(to_date(df2.BirthDate)).alias('Birth_Date').printSchema()
 
 from pyspark.sql.functions import to_timestamp
