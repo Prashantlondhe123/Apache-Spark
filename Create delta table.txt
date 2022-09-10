@@ -13,7 +13,7 @@ Adls >>      Bronze.                     Silver.                      Gold.     
 
 
 
-## Method 1 :
+## Create delta table  Method 1 :
 
 from delta.tables import *
 
@@ -39,9 +39,9 @@ property("description", "table created for deno purpose")
 .location("/FileStore/tables/delta/createtable") 
 .execute()
 
-############################################SQL
 
-## Method 1:
+## create Delta table with sql :
+#Method 1:
 CREATE TABLE endoyee deno (
 emp_id INT,
 emp Name STRING,
@@ -51,7 +51,7 @@ dept STRING,
 ) USING DELTA
 
 
-##  Method 2:
+# Method 2:
 CREATE TABLE IF NOT EXISTS employee demo (
 emp, id INT,
 emp Name STRING,
@@ -61,7 +61,7 @@ dept STRING,
 ) USING DELTA
 
 
-## Method 3:
+# Method 3:
 CREATE OR REPLACE TABLE employee demo (
 empid INT,
 emp Name STRING,
@@ -72,8 +72,54 @@ dept STRING,
 LOCATION/FileStore/tables/delta/createtable"
 
 
-############ Dataframe ######
-## Dataframe :
+
+## create Delta table with dataframe  :
 df.write.format("delta").saveAsTable("employee_demo1")
 
 >>select * from employee_demol
+################insert new record  in a table #####
+>insert into table_name values (1,2,3)
+
+
+##############delete delta table #####
+
+>delete from table_name where condition
+
+
+###########update delta table #####
+>Update  table_name set col ="" where condition 
+>Update delta /file/ set col="" where condition 
+
+#Pyspark:
+>from delta.tables import *
+from pyspark.sql.functions import.
+deltaTable DeltaTable.forPath(spark, "/FileStore/tables/delta/path employee demo")
+
+
+deltaTable.update(
+condition: "emp_name ="Mark",
+ set{"salary": "15000"}
+ )
+
+################Delta optimization ####
+#check history of  delta table:
+>describe history table_name
+
+#It creates one log file . removs  all  previous log files
+ >Optimize table_name
+
+
+# it will list all file 
+>Vacuum table_name1 DRY RUN
+
+#it will list all file which should be deleted : time:0 hr old file will delete 
+>Vacuum table name retain 0 hours dry run 
+
+# delete log file if  file is created before 7 days
+> Vacuum table_name
+
+# Z order: it is used to improve performance. It combine all file according to one column. With the help of that column we can fetch data easily or fastly.
+>Vacuum table_name ZORDER c1
+
+
+
