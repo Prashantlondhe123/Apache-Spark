@@ -793,6 +793,80 @@ df1.exceptAll(df2).show()
 |  c|  4|
 
 +---+---+
+############################################ String functions ######################################
+# concat_ws(): 
+concatenation string with separator
+df = spark.createDataFrame([('abcd','123')], ['s', 'd'])
+df.select(concat_ws('-', df.s, df.d).alias('s')).collect()
+[Row(s='abcd-123')]
+
+#format_string(): 
+it combines two col
+df = spark.createDataFrame([(5, "hello")], ['a', 'b'])
+df.select(format_string('%d %s', df.a, df.b).alias('v')).collect()
+[Row(v='5 hello')]
+
+#initcap():
+Translate the first letter of each word to upper case in the sentence
+spark.createDataFrame([('ab cd',)], ['a']).select(initcap("a").alias('v')).collect()
+[Row(v='Ab Cd')]
+
+#instr(): 
+Locate the position of the first occurrence of substr column in the given string
+df = spark.createDataFrame([('abcd',)], ['s',])
+df.select(instr(df.s, 'b').alias('s')).collect()
+[Row(s=2)]
+
+#length():
+spark.createDataFrame([('ABC ',)], ['a']).select(length('a').alias('length')).collect()
+[Row(length=4)]
+
+#locate: substring in String 
+df = spark.createDataFrame([('abcd',)], ['s',])
+df.select(locate('b', df.s, 1).alias('s')).collect()
+[Row(s=2)]
+
+# regexp_replace():
+df = spark.createDataFrame([('100-200',)], ['str'])
+df.select(regexp_replace('str', r'(\d+)', '--').alias('d')).collect()
+[Row(d='-----')]
+
+#repeat():
+df = spark.createDataFrame([('ab',)], ['s',])
+df.select(repeat(df.s, 3).alias('s')).collect()
+[Row(s='ababab')]
+
+# split ():
+df = spark.createDataFrame([('oneAtwoBthreeC',)], ['s',])
+df.select(split(df.s, '[ABC]', 2).alias('s')).collect()
+[Row(s=['one', 'twoBthreeC'])]
+df.select(split(df.s, '[ABC]', -1).alias('s')).collect()
+[Row(s=['one', 'two', 'three', ''])]
+
+#substring():Substring starts at pos and is of length len when str is String type or returns the slice of byte array that starts at pos in byte and is of length len when str is Binary type
+df = spark.createDataFrame([('abcd',)], ['s',])
+df.select(substring(df.s, 1, 2).alias('s')).collect()
+[Row(s='ab')]
+
+#upper()
+#lower()
+#trim():
+
+#translate():
+spark.createDataFrame([('translate',)], ['a']).select(translate('a', "rnlt", "123") \
+    .alias('r')).collect()
+[Row(r='1a2s3ae')]
+
+#sentences():
+df = spark.createDataFrame([["This is an example sentence."]], ["string"])
+df.select(sentences(df.string, lit("en"), lit("US"))).show(truncate=False)
++-----------------------------------+
+|sentences(string, en, US)          |
++-----------------------------------+
+|[[This, is, an, example, sentence]]|
++-----------------------------------+
+
+#
 
 ######################################### Datatype & Data casting #################################################################################################
 from pyspark.sql .functions import *
