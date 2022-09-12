@@ -1,0 +1,38 @@
+#Dealing With Bad or Corrupt Records in Apache Spark:
+When reading data from any file source, Spark might face issues if the file contains any bad or corrupted records. Let's say, as per the schema, we were expecting some column values as Integer Type but we received String Type or DoubleType from the source. As a data engineer, we need to handle these kinds of scenarios, or else Spark will not be able to parse these records and will give a null for these corrupted records, and we will not be able to find or identify these bad/corrupted records.
+
+Solution:
+
+To deal with these cases, we have the following option:
+
+1. PERMISSIVE:.    This is the default mode. Spark will load and process both complete and corrupted data, but for corrupted data it will store null.
+2. DROPMALFORMED:  This mode will drop the corrupted records and will only show the correct records.
+3. FailFast:.  In this mode, Spark throws an exception and halts the data loading process when it finds any bad or corrupted records.
+4. columnNameOfCorruptRecord Option:  This will Store all the corrupted records in new column. This extra column must be defined in schema.
+5.badRecordsPath:  Spark processes only the correct records and corrupted or bad records are excluded. Corrupted or bad records will be stored in a file at the badRecordsPath location.
+
+Input:corruptrecord.csv
+
+1,rahul, 10000,bangalore 2,umesh,20000,indore 3,pawan,30000,bhopal
+4,123,40000,pune
+rohit,rohan,50000,delhi 5,ronak,noida,kolkatta
+6,ajay,mumbai,chennai
+
+Note:So, as per our below schema, only the first 4 are correct records. The remaining are bad or corrupted.
+
+
+Example:
+
+val dataschema = new StructType() .add(StructField("id", Integer Type, true)) .add(StructField("Name", StringType, true)) .add(StructField("Salary", IntegerType, true)) .add(StructField("City", StringType, true))
+
+val dataschema1 = new StructType() .add(StructField("id", IntegerType, true)) .add(StructField("Name", StringType, true)) .add(StructField("Salary", Integer Type, true)) .add(StructField("City", StringType, true)) .add(StructField("CorruptRecord", String Type, true))
+
+val FailFast = spark.read.format("csv").schema(dataschema).option("mo de", "FAILFAST").load("/tmp/corruptrecord.csv")
+
+val columnNameOfCorruptRecord = spark.read.format("csv").schema(dataschema1).option("c olumnNameOfCorruptRecord", "CorruptRecord").load("/ tmp/corruptrecord.csv")
+
+val Permissive =spark.read.format("csv").schema(dataschema).option("mo de","PERMISSIVE").load("/tmp/corruptrecord.csv")
+
+val DropMalformed = spark.read.format("csv").schema(dataschema).option("mo de", "DROPMALFORMED").load("/tmp/corruptrecord.csv")
+
+val badRecordsPath =spark.read.format("csv").schema(dataschema).option("ba dRecordsPath", "/tmp/").load("/tmp/corruptrecord.csv")
