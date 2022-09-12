@@ -1,0 +1,28 @@
+#Spark optimization techniques:
+
+Spark Job Optimisation Techniques.
+
+1. Salting Techniques
+2. Use Broadcast
+3. Persist and cache
+4. repartition and coalesce
+5. Filter Pushdown
+6. Avoid broad or wide transformation.
+7. Avoid using "InferSchema."
+
+
+
+1] Salting to Increase Parallelism: If there aren't enough distinct keys to create partitions, try salting to create them.
+
+2] Use Broadcast: If there is a join between a small and a large table/dataframe, always try to broadcast the smaller one. This will avoid data shuffling since the broadcast dataframe/table will be available on the nodes locally.
+
+3] Cache and Persist: Using cache() and persist() methods, Spark provides an optimisation mechanism to-store the intermediate computation of an RDD, DataFrame, and dataset so they can be reused in subsequent actions (reusing the RDD, Dataframe, and dataset computation result's).
+
+4] repartition and coalesce: repartition() is used to increase or decrease the RDD, DataFrame, Dataset partitions whereas the coalesce() is used to only decrease the number of partitions in an efficient way.
+
+5] Filter Pushdown : Always try to filter data as soon as possible before joining or aggregating. In the case of a dataframe or dataset, it will be taken care of by the catalyst optimiser.
+
+6] Avoid Wide Transformation: Wherever possible, always try to avoid wide transformation since it does shuffle and takes a lot of time.
+
+7] Avoid InferSchema : Avoid InferSchema whenever possible when reading data from a file, because it will take a long time to retrieve metadata (schema) information from the file. Always create a custom schema in spark using a struct and use it in a dataframe.
+
