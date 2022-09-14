@@ -215,6 +215,14 @@ df.describe()
 df.select("a", "b", "c").describe().show()
 df.collect()
 
+# greatest ():max value of  row /it will create new column with Greatest col name
+from pyspark.sql.functions import greatest
+greatDF= df.withColumn("Greatest", greatest(" c1", "c2","c3","c4"))
+
+#least():min value of row / will create new col 
+from pyspark.sql.functions import least
+aleastOf=df.withColumn("Least", least Subject 1", "Subject 2", "Subject_3","Subject_4","Subject 5"))
+
 #df.alias: rename dataframe
 from pyspark.sql.functions import *
 df_as1 = df.alias("df_as1")
