@@ -26,3 +26,15 @@ Spark Job Optimisation Techniques.
 
 7] Avoid InferSchema : Avoid InferSchema whenever possible when reading data from a file, because it will take a long time to retrieve metadata (schema) information from the file. Always create a custom schema in spark using a struct and use it in a dataframe.
 
+8]  Bucketing:
+Bucketing is an optimization technique in Spark SQL that uses buckets and bucketing columns to determine data partitioning. When applied properly bucketing can lead to join optimizations by avoiding shuffles (aka exchanges) of tables participating in the join. The talk will give you the necessary information so you can use bucketing to optimize Spark SQL structured queries
+
+-Create Bucketed Table :PK is a primary key col 
+>df.write.format("parquet").bucketBy(, "PK").saveAsTable("bucketedTable")
+
+-Created Bucketed  Dataframe:
+>df1 spark.table("bucketedTable")
+>df2 = spark.table("bucketedTable")
+
+
+9]
