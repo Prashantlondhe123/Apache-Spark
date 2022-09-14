@@ -15,6 +15,10 @@ Spark Job Optimisation Techniques.
 1] Salting to Increase Parallelism: If there aren't enough distinct keys to create partitions, try salting to create them.
 
 2] Use Broadcast: If there is a join between a small and a large table/dataframe, always try to broadcast the smaller one. This will avoid data shuffling since the broadcast dataframe/table will be available on the nodes locally.
+-It is programming mechanism in Spark, through which we can keep read-only copy of data into each node of the cluster instead of sending it to node every time a task needs it.
+
+>from pyspark.sql.functions import broadcast
+>joinDF=transactionDF.join(broadcast(stoneDF), transactionDF ["Store_id"] == storeDFI'Store_id'])
 
 3] Cache and Persist: Using cache() and persist() methods, Spark provides an optimisation mechanism to-store the intermediate computation of an RDD, DataFrame, and dataset so they can be reused in subsequent actions (reusing the RDD, Dataframe, and dataset computation result's).
 
