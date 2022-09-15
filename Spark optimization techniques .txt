@@ -11,6 +11,7 @@ Spark Job Optimisation Techniques.
 7. Avoid using "InferSchema."
 8]  Bucketing:
 9] Partition by
+10] snappy & Gzip() compression Method 
 
 
 
@@ -48,4 +49,21 @@ df.write.option("header", True).partitionBy("Year").mode("overwrite").csv("/File
 df.write.option("header",True).partitionBy("Year","Sex").mode("overwrite").csv ("/FileStore/tables/baby_names_output")
 df.write.option("header",True).option("maxRecordsPerFile",4200).partitionBy("Year").mode("overwrite").csv("/FileStore/tables/baby_names_output")
 
+10]#snappy:
+-Low CPU Utilization
+-Low Compression Rate
+-Splitable
+-Use Case: Hot Layer
+-Use Case: Compute Intensive
+
+>csVDF.write.format("parquet").option("compression", "snappy").save("/FileStore/tables/bigdata_training/write_files/snappy_parquets")
+
+#Gzip():
+-High CPU Utilization
+-High Compression Rate
+-Non-splitable
+-Use Case: Cold Layer
+-Use Case: Storage Intensive
+
+> csvDF.write.format("parquet").option("compression", "gzip").save("/FileStore/tables/bigdata_training/write_files/gzip_parquets")
 
