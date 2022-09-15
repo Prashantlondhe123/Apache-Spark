@@ -12,7 +12,7 @@ Spark Job Optimisation Techniques.
 8]  Bucketing:
 9] Partition by
 10] snappy & Gzip() compression Method 
-
+11] Data skew:
 
 
 1] Salting to Increase Parallelism: If there aren't enough distinct keys to create partitions, try salting to create them.
@@ -67,3 +67,17 @@ df.write.option("header",True).option("maxRecordsPerFile",4200).partitionBy("Yea
 
 > csvDF.write.format("parquet").option("compression", "gzip").save("/FileStore/tables/bigdata_training/write_files/gzip_parquets")
 
+11]Data Skew:
+-Data skew is a condition in which a table's data is unevenly distributed among partitions in the cluster.
+-Data skew can severely downgrade performance of queries, especially those with joins.
+-Joins between big tables require shuffling data and the skew can lead to an extreme imbalance of work in the cluster.
+-It's likely that data skew is affecting a query if a query appears to be stuck finishing very few tasks (for example, the last 3 tasks out of
+
+>How to handle Data Skew:
+- Salt the skewed column with a random number creating better distribution across each partition
+-Apply Skew-hint, With the information from these
+hints, Spark can construct a better query plan, one that does not suffer from data skew.
+-Use Broadcast Join for smaller tables
+-Enable Adaptive query execution if you are using Spark 3 which will balance out the partitions for us automatically
+
+12]
