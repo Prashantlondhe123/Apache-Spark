@@ -1,6 +1,5 @@
 #Spark optimization techniques:
 
-Spark Job Optimisation Techniques.
 
 1. Salting Techniques
 2. Use Broadcast
@@ -12,7 +11,8 @@ Spark Job Optimisation Techniques.
 8]  Bucketing:
 9] Partition by
 10] snappy & Gzip() compression Method 
-11] Data skew:
+11] Data skew
+12] catylist optimizer
 
 
 1] Salting to Increase Parallelism: If there aren't enough distinct keys to create partitions, try salting to create them.
@@ -80,4 +80,3 @@ hints, Spark can construct a better query plan, one that does not suffer from da
 -Use Broadcast Join for smaller tables
 -Enable Adaptive query execution if you are using Spark 3 which will balance out the partitions for us automatically
 
-12]
