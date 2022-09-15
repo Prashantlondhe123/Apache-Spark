@@ -9,6 +9,8 @@ Spark Job Optimisation Techniques.
 5. Filter Pushdown
 6. Avoid broad or wide transformation.
 7. Avoid using "InferSchema."
+8]  Bucketing:
+9] Partition by
 
 
 
@@ -41,4 +43,9 @@ Bucketing is an optimization technique in Spark SQL that uses buckets and bucket
 >df2 = spark.table("bucketedTable")
 
 
-9]
+9] partition by :
+df.write.option("header", True).partitionBy("Year").mode("overwrite").csv("/FileStore/tables/baby_names_output")
+df.write.option("header",True).partitionBy("Year","Sex").mode("overwrite").csv ("/FileStore/tables/baby_names_output")
+df.write.option("header",True).option("maxRecordsPerFile",4200).partitionBy("Year").mode("overwrite").csv("/FileStore/tables/baby_names_output")
+
+
