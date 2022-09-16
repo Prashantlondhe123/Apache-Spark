@@ -1,0 +1,10 @@
+##pipeline for project:
+
+#Step1:
+%run/Shared/CAMPAIGN TEAM_JOBS/GLOBAL_JOBS/COMMON/CONFIGURATION
+
+#Step 2:
+from pyspark.sql. functions import *
+from pyspark.sql. functions import col
+
+#Step3:
