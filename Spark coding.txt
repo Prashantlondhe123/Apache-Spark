@@ -17,6 +17,7 @@ dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
 %run "./Includes/Classroom-Setup".                              : Class room setup
 %run "./Includes/Classroom-Cleanup".                             : Classroom cleanu
 
+################################################## WIDGETS ###############
 #CREATING WIDGETS
 dbutils.widgets.text("JOB_NAME","JOB_CIBIL GOOD_BAD_WORKING")
 dbutils.widgets.text("COLUMNS_LIST", "ucic_id, score")
@@ -24,6 +25,12 @@ dbutils.widgets.text("COLUMNS_LIST", "ucic_id, score")
 JOB_NAME = dbutils.widgets.get("JOB_NAME") 
 COLUMNS_LIST = dbutils.widgets.get("COLUMNS_LIST")
 # then we can use it in notebook as variable 
+
+dbutils.widgets.dropdown("state", "CA", ["CA", "IL", "MI", "NY", "OR", "VA"])
+
+#dbutils.widgets.remove("state")
+
+dbutils.widgets.removeAll()
 
 ######################################################################################################################################################################
 1)# Import SparkSession
