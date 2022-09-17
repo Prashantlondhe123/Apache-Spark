@@ -32,6 +32,9 @@ dbutils.widgets.dropdown("state", "CA", ["CA", "IL", "MI", "NY", "OR", "VA"])
 
 dbutils.widgets.removeAll()
 
+#Use Databricks widgets with %run:
+%run /path/to/notebook $X="10" $Y="1"
+
 ######################################################################################################################################################################
 1)# Import SparkSession
 from pyspark.sql import SparkSession
