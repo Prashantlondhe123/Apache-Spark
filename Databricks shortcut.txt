@@ -1,0 +1,5 @@
+Crt+alt+f                  :find and replace 
+Shift+ tab.                : Docstring 
+Tab.                       : auto complete
+Crt+shift+z                 : Redo
+Space.                       : Scroll down
