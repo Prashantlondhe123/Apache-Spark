@@ -122,6 +122,31 @@ The Spark SQL CLI is a convenient interactive command tool to run the Hive metas
 execute SQL queries input from the command line. Note that the Spark SQL CLI cannot talk to the
 Thrift JDBC server
 
+#Catalyst Optimizer :is an integrated query optimizer and execution scheduler for Spark Datasets/DataFrame.
+Catalyst Optimizer is the place where Spark tends to improve the speed of your code execution by logically
+improving it.
+
+#Shuffling is the process of redistributing data across partitions that may lead to data movement across the 
+ executors. The shuffle operation is implemented differently in Spark compared to Hadoop
+
+#Spark Fault Tolerance: is the ability of a system to continue to function properly even if some of its components
+fail (or have one or more faults within them).
+
+#Spark Core is the engine for parallel and distributed processing of large data sets 
+
+#A Discretized Stream (DStream)
+
+#Accumulators are variables used for aggregating information across the executors
+
+#In Spark, Lazy Evaluation: means that You can apply as many TRANSFORMATIONs as you want, but 
+Spark will not start the execution of the process until an ACTION is called. 💡 So transformations
+are lazy but actions are eager
+
+#Directed Acyclic Graph (DAG) is used to represent the structure of basic blocks, to visualize the flow of
+values between basic blocks, and to provide optimization techniques in the basic block.
+
+#
+
 #####################################################Pyspark#############
 
 #Pyspark:
@@ -198,4 +223,4 @@ True
 StorageLevel(True, True, False, True, 1) 
 >>> df.unpersist()
 
-#
+#########################################₹₹₹#₹₹₹##########
