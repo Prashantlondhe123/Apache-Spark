@@ -83,6 +83,10 @@ RDD Action operation returns the values from an RDD to a driver node. In other w
 Some actions on RDDs are count(), collect(), first(), max(), reduce() and more.
 
 #############################################################create dataframe###########################################################################
+
+
+
+
 5) create dataframe
 
 data = [('James','','Smith','1991-04-01','M',3000),
@@ -203,6 +207,15 @@ df1.to_excel("output.xlsx", sheet_name='Sheet_name_1')
 
 
 ###################################################### IMP function #############################################################################################
+# coalesce: used to decrease partition
+Df.coalesce(1). write.mode("overrite'). Parquet (path)
+
+# check partition :  df.rdd.getNumPartition()
+
+#repartition: used to increase or decrease partition 
+Df.coalesce(1). write.mode("overrite'). Parquet (path)
+
+
 # save DataFrame into table:
 Df.saveAsTable('table')
 
