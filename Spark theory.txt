@@ -1,5 +1,17 @@
 #Spark Streaming is able to process 100,000-500,000 records/node/sec
 
+#Worker nodes are those nodes that run the Spark application in a cluster
+
+#A worker node is like a slave node where it gets the work from its master 
+node and actually executes them.
+
+#The Spark driver is used to orchestrate the whole Spark cluster.
+
+#SchemaRDDs are composed Row objects along with a schema that describes
+ the data types of each column in the row
+
+
+
 # Apache Spark:
 Commits: 33,161 
 Contributors: 2,522 
