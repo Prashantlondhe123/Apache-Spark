@@ -1,0 +1,31 @@
+##Windows function: 
+# Lead ():
+1)SELECT Name, Gender, Salary,
+ LEAD (Salary) OVER (ORDER BY Salary) AS Lead
+FROM Employees
+
+
+2)
+ SELECT Name, Gender, Salary,
+ LEAD (Salary, 2, -1) OVER (ORDER BY Salary) AS Lead
+FROM Employees
+
+#Lag():
+SELECT Name, Gender, Salary,
+LEAD(Salary, 2, 1) OVER (ORDER BY Salary) AS Lead, 
+LAG(Salary, 1, 1) OVER (ORDER BY Salary) AS Lag
+ FROM Employees
+
+# first_value():
+SELECT Name, Gender, Salary,
+FIRST_VALUE (Name) OVER (ORDER BY Salary) AS FirstValue I
+FROM Employees
+
+#last_value():
+SELECT Name, Gender, Salary,
+Last_VALUE (Name) OVER (ORDER BY Salary) AS FirstValue 
+FROM Employees
+
+
+
+# Join:
