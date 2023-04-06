@@ -1,21 +1,25 @@
+from pyspark.sql import *
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+
 ############################################################################ DBFS##################################################################################
 
 dbutils.help()
 dbutils.widget.help()
-dbutils.fs.help()                                          : file system
-%fs ls /filestore/                                         : Enlist of file
-display(dbutils.fs.ls('/filesore/))                         : Enlist 
-dbutils.fs.mkdirs('filestore/table1')                       : create directory 
-dbutils.fs.put('/filesore/file.txt,'hello there ')           : add file  with text 
-dbutils.fs.head('/filesore/file.txt)                         :  read first rows
-dbutils.fs.rm('/filesore/' ,true )                           : remove folder
-dbutils.notebook.run('/filesore/' ,60 )                      :(url,time): run notebook
+dbutils.fs.help()                                             : file system
+%fs ls /filestore/                                            : Enlist of file
+display(dbutils.fs.ls('/filesore/))                           : Enlist 
+dbutils.fs.mkdirs('filestore/table1')                         : create directory 
+dbutils.fs.put('/filesore/file.txt,'hello there ')            : add file  with text 
+dbutils.fs.head('/filesore/file.txt)                          :  read first rows
+dbutils.fs.rm('/filesore/' ,true )                            : remove folder
+dbutils.notebook.run('/filesore/' ,60 )                       :(url,time): run notebook
 dbutils.notebook,exit("Some parameter values")                :exit  notebook
-%run ./file path                                               : run notebook
+%run ./file path                                              : run notebook
 dbutils.fs.cp('Source url','target url',true)                 :copy file , folder                                            
-dbutils.fs.mv('/filstore/','filestore/prashant/',true).        :Move file folder
-%run "./Includes/Classroom-Setup".                              : Class room setup
-%run "./Includes/Classroom-Cleanup".                             : Classroom cleanu
+dbutils.fs.mv('/filstore/','filestore/prashant/',true).       :Move file folder
+%run "./Includes/Classroom-Setup".                            : Class room setup
+%run "./Includes/Classroom-Cleanup".                          : Classroom cleanu
 
 ################################################## WIDGETS ###############
 #CREATING WIDGETS
