@@ -12,12 +12,12 @@ import numpy as np
 
 
 #loading raw dcm data
-dcm_merged=pd.read_csv(r'C:\Users\Prashant.Londhe\Desktop\Project\Data\DCM Data T1.csv',header='infer')
+dcm_merged=pd.read_csv(r' T1.csv',header='infer')
 
 
 
 # loading pre-processed direct buy data
-pre_proc_directbuy=pd.read_csv(r'C:\Users\Prashant.Londhe\Desktop\Project\Data\Campaign _Direct Buy data Q4 F21 to Q2 F22 _updated with till sept _22.csv', header='infer')
+pre_proc_directbuy=pd.read_csv(r'file.csv', header='infer')
 pre_proc_directbuy=pre_proc_directbuy[['Site','Date','Campaign','Campaign ID','Placement Name','Placement ID','Placement','Impressions','Media Cost']]
 
 pre_proc_directbuy.rename(columns={ 'Site':'Site (CM360)','Media Cost':'Cost'},inplace=True)
@@ -351,10 +351,10 @@ categorization.count()
 # In[270]:
 
 
-df3=pd.read_excel(r'C:\Users\Prashant.Londhe\Desktop\Project\Data\2022-05-12-Digital-FY21_T1_2H_categorization_venkat-edit (1).xlsx',sheet_name='Car_Unknown')
-df4=pd.read_excel(r'C:\Users\Prashant.Londhe\Desktop\Project\Data\2022-05-12-Digital-FY21_T1_2H_categorization_venkat-edit (1).xlsx',sheet_name='Channel_Unknown')
-df5=pd.read_excel(r'C:\Users\Prashant.Londhe\Desktop\Project\Data\2022-05-12-Digital-FY21_T1_2H_categorization_venkat-edit (1).xlsx',sheet_name='Funnel_Unknown')
-df6=pd.read_excel(r'C:\Users\Prashant.Londhe\Desktop\Project\Data\2022-05-12-Digital-FY21_T1_2H_categorization_venkat-edit (1).xlsx',sheet_name='Market_Unknown')
+df3=pd.read_excel(r'file.xlsx',sheet_name='Car_Unknown')
+df4=pd.read_excel(r'filexlsx',sheet_name='Channel_Unknown')
+df5=pd.read_excel(r'file.xlsx',sheet_name='Funnel_Unknown')
+df6=pd.read_excel(r'file.xlsx',sheet_name='Market_Unknown')
 df7=pd.concat([df3,df4,df5,df6])
 
 del [df3,df4,df5,df6] 
@@ -363,7 +363,7 @@ df7['Key']=df7['campaign']+ df7['placement']+df7['site (cm360)']+ df7['source']
 
 
 
-#df7.to_csv(r'C:\Users\Prashant.Londhe\Desktop\Project\Output\result.csv')
+#df7.to_csv(r'file.csv')
 
 df7.count()
 
