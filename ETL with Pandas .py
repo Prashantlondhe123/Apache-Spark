@@ -1,3 +1,86 @@
+
+# Read all types of file : 
+import pandas as pd
+
+def read_file(file_path):
+    file_extension = file_path.split('.')[-1].lower()
+    
+    if file_extension == 'csv':
+        df = pd.read_csv(file_path)
+    elif file_extension in ['xls', 'xlsx']:
+        df = pd.read_excel(file_path)
+    elif file_extension == 'json':
+        df = pd.read_json(file_path)
+    elif file_extension == 'parquet':
+        df = pd.read_parquet(file_path)
+    elif file_extension == 'hdf':
+        df = pd.read_hdf(file_path)
+    elif file_extension == 'feather':
+        df = pd.read_feather(file_path)
+    elif file_extension == 'sql':
+        # Make sure to replace 'table_name' with the actual table name in the SQL database.
+        df = pd.read_sql_table('table_name', 'sqlite:///' + file_path)
+    else:
+        raise ValueError(f"Unsupported file format: {file_extension}")
+    
+    return df
+
+if __name__ == "__main__":
+    file_path = "path/to/your/file.csv"  # Replace with the path to your file
+    try:
+        df = read_file(file_path)
+        print(df.head())
+    except ValueError as ve:
+        print(ve)
+
+
+##To read different types of files using pandas, you can use various pandas functions that support different file formats. Here's a Python code that demonstrates how to read different types of files using pandas
+
+import pandas as pd
+
+def write_file(df, file_path, file_format):
+    file_extension = file_format.lower()
+    
+    if file_extension == 'csv':
+        df.to_csv(file_path, index=False)
+    elif file_extension in ['xls', 'xlsx']:
+        df.to_excel(file_path, index=False)
+    elif file_extension == 'json':
+        df.to_json(file_path, orient='records')
+    elif file_extension == 'parquet':
+        df.to_parquet(file_path, index=False)
+    elif file_extension == 'hdf':
+        df.to_hdf(file_path, key='data', mode='w')
+    elif file_extension == 'feather':
+        df.to_feather(file_path)
+    elif file_extension == 'sql':
+        # Make sure to replace 'table_name' with the desired table name in the SQL database.
+        engine = f'sqlite:///{file_path}'
+        df.to_sql('table_name', engine, if_exists='replace', index=False)
+    else:
+        raise ValueError(f"Unsupported file format: {file_extension}")
+
+if __name__ == "__main__":
+    # Sample DataFrame for demonstration purposes
+    data = {
+        'Name': ['Alice', 'Bob', 'Charlie'],
+        'Age': [25, 30, 22],
+        'City': ['New York', 'San Francisco', 'Los Angeles']
+    }
+    df = pd.DataFrame(data)
+
+    file_path = "path/to/your/output_file"  # Replace with the desired output file path
+    file_format = "csv"  # Replace with the desired file format (csv, xls, xlsx, json, parquet, hdf, feather, sql)
+
+    try:
+        write_file(df, f"{file_path}.{file_format}", file_format)
+        print(f"Data written to {file_path}.{file_format}")
+    except ValueError as ve:
+        print(ve)
+
+
+
+
 #!/usr/bin/env python
 # coding: utf-8
 
