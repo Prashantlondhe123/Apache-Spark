@@ -92,6 +92,16 @@ import numpy as np
 
 
 # In[244]:
+# Create a list of data for the DataFrame
+data = {
+    'column1': range(50),  # Generate numbers from 0 to 49 for column1
+    'column2': ['item_' + str(i) for i in range(50)]  # Create string values for column2
+}
+
+# Create the DataFrame
+df = pd.DataFrame(data)
+
+
 
 
 #loading raw dcm data
