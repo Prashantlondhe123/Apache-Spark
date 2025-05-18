@@ -185,4 +185,36 @@ select * from table1
 intersect 
 select * from table2
 
+# Try and catch in sql
+Declare @value1 int;
+
+Declare @value2 int;
+
+BEGIN TRY
+
+set @value1 = 10;
+
+set @value2 = @value1/03
+
+END TRY
+
+BEGIN CATCH
+
+Print 'Error Occurred is:
+
+Print Error_Message()
+
+END CATCH
+
+# update table using column from another table 
+UPDATE A
+SET A.OrderDate =B.OrderDate,
+A. Country= B.OrderID
+FROM Customers A INNER JOIN Orders B ON A. CustomerID= B.Customer ID
+WHERE A. Customer ID >10 AND A.OrderDate IS NULL
+
+# inset data into specific table :
+INSERT INTO hobbies (name_student, age)
+SELECT name_student, age FROM sports;
+
 #
