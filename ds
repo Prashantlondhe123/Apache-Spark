@@ -1,0 +1,19 @@
+from pyspark.sql.functions import col, isnan, isnull
+
+# assume 'df' is your DataFrame
+
+# check for numeric values using regex
+df.filter(col('column_name').rlike('^-?[0-9]+([.][0-9]+)?$')).show()
+
+# check for alpha-numeric values using regex
+df.filter(col('column_name').rlike('^[a-zA-Z0-9]+$')).show()
+
+# check for alphabet values using regex
+df.filter(col('column_name').rlike('^[a-zA-Z]+$')).show()
+
+from pyspark.sql.functions import col
+
+# assume 'df' is your DataFrame
+
+# check for float values
+df.filter(col('column_name').rlike('^-?[0-9]+([.][0-9]+)?$')).show()
